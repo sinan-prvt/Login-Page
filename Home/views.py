@@ -1,6 +1,6 @@
 from django.shortcuts import render, redirect
 from django.contrib.auth.models import User
-from django.contrib.auth import authenticate, login as auth_login
+from django.contrib.auth import authenticate, login as auth_login, logout
 from django.contrib import messages
 from django.db import IntegrityError
 
@@ -23,6 +23,10 @@ def loginn(request):
             return redirect("register")
     return render(request, "login.html")
 
+def logout_user(request):
+    logout(request)
+    messages.info(request, "You have been logged out. 👋")
+    return redirect('login') 
 
 def register(request):
     if request.method == 'POST':
@@ -39,6 +43,7 @@ def register(request):
             messages.error(request, "⚠️ Username already exists. Please try again.")
             return redirect('register')
     return render(request, 'register.html')
+
 
 def home(request):
     return render(request, 'home.html')
